@@ -1,0 +1,34 @@
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: javaweb-app-rc
+spec:
+  replicas: 3
+  selector:
+    app: javaweb-label
+  template:   #pod-templates 
+    metadata:
+      name: javawebapp-pod
+      labels:
+        app: javaweb-label
+    spec:
+      containers:
+      - name: javawebappcontainer
+        image: ashokit/javawebapp
+        ports:
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: javaweb-service
+spec:
+  type: NodePort
+  selector:
+    app: javaweb-label
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30785
+...

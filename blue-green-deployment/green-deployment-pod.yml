@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: javawebapp-green-deployment
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  selector:  #Set based Selector
+    matchLabels:  # give it in the pods albe; in labels
+      app: java-web-app
+      version: v2
+      color: green
+  template:    #Pods label
+    metadata:
+      name: javaweb-app-pod-green
+      labels:  #same as selector in matchLabels 
+        app: java-web-app
+        version: v2
+        color: green
+    spec:
+      containers:
+      - name: javawebapp-container
+        image: ashokit/javawebapp
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+...
